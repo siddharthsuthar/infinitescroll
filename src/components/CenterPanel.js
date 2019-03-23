@@ -1,22 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import blue from "@material-ui/core/colors/blue";
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+
 
 const styles = theme => ({
     card: {
@@ -32,6 +29,28 @@ const styles = theme => ({
 });
 
 class CenterPanel extends React.Component {
+
+    state = {
+        items: Array.from({ length: 5 }),
+        hasMore: true
+    };
+
+
+    fetchMoreData = () => {
+        if (this.state.items.length >= 500) {
+            this.setState({ hasMore: false });
+            return;
+        }
+        // a fake async api call like which sends
+        // 20 more records in .5 secs
+        setTimeout(() => {
+            this.setState({
+                items: this.state.items.concat(Array.from({ length: 20 }))
+            });
+        }, 1000);
+    };
+
+
 
     renderCard() {
         const {classes} = this.props;
@@ -70,16 +89,29 @@ class CenterPanel extends React.Component {
     }
 
         render() {
-            const elements = [1,2,3,4,5,6,7,8,9,10];
+
                 return (
                     <div className="col-md-4">
-                        {elements.map(() => {
-                            return (<div>
-                                    {this.renderCard()}
-                                    <br/>
-                                    </div>);
-                        })}
-                    </div>
+                    <InfiniteScroll
+                        dataLength={this.state.items.length}
+                        next={this.fetchMoreData}
+                        hasMore={this.state.hasMore}
+                        loader={<h4>Loading...</h4>}
+                        endMessage={
+                            <p style={{ textAlign: "center" }}>
+                                <b>Yay! You have seen it all</b>
+                            </p>
+                        }
+                    >
+                        {this.state.items.map((i, index) => (
+                            <div>
+                            {this.renderCard()}
+                            <br/>
+                            </div>
+                            ))}
+
+                    </InfiniteScroll>
+            </div>
                 );
             }
 

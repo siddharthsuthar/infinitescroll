@@ -3,19 +3,27 @@ import NavBar from "./NavBar"
 import RightPane from './RightPanel'
 import LeftPanel from './LeftPanel'
 import CenterPanel from './CenterPanel'
+import PropTypes from 'prop-types';
+import red from "@material-ui/core/colors/red";
+import '../App.css'
+
+
+
 
 class HomePage extends Component {
+
+
     render() {
         return (
 
             <div>
-                <NavBar/>
+                <NavBar className = "Top"/>
                 <br/>
-                <div className="row">
+                <div className="row container">
                     <div className="col-md-1" ></div>
-                    <LeftPanel/>
-                    <CenterPanel/>
-                    <RightPane/>
+                    <LeftPanel className = "Left"/>
+                    <CenterPanel className = "Middle"/>
+                    <RightPane className = "Right"/>
                     <div className="col-md-1" ></div>
                 </div>
             </div>
@@ -24,5 +32,10 @@ class HomePage extends Component {
         );
     }
 }
+
+
+HomePage.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
 export default HomePage;

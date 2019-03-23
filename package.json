@@ -8,6 +8,7 @@
     "markdown-to-jsx": "^6.9.3",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
+    "react-infinite-scroll-component": "^4.5.2",
     "react-scripts": "2.1.8"
   },
   "scripts": {
